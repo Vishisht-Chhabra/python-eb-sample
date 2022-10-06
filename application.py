@@ -132,7 +132,7 @@ welcome = """
 """
 
 
-def hello_world(request,environ, start_response):
+def hello_world(environ, start_response):
     path = environ['PATH_INFO']
     method = environ['REQUEST_METHOD']
     if method == 'POST':
