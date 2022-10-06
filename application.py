@@ -1,4 +1,8 @@
 import logging.handlers
+from wsgiref.simple_server import make_server
+from pyramid.config import Configurator
+from pyramid.response import Response
+import os
 
 # Create logger
 logger = logging.getLogger(__name__)
@@ -128,25 +132,16 @@ welcome = """
 """
 
 
-def application(environ, start_response):
-    path = environ['PATH_INFO']
-    method = environ['REQUEST_METHOD']
-    if method == 'POST':
-        try:
-            if path == '/':
-                request_body_size = int(environ['CONTENT_LENGTH'])
-                request_body = environ['wsgi.input'].read(request_body_size)
-                logger.info("Received message: %s" % request_body)
-            elif path == '/scheduled':
-                logger.info("Received task %s scheduled at %s", environ['HTTP_X_AWS_SQSD_TASKNAME'],
-                            environ['HTTP_X_AWS_SQSD_SCHEDULED_AT'])
-        except (TypeError, ValueError):
-            logger.warning('Error retrieving request body for async work.')
-        response = ''
-    else:
+def application(request):
         response = welcome
-    start_response("200 OK", [
-        ("Content-Type", "text/html"),
-        ("Content-Length", str(len(response)))
-    ])
-    return [bytes(response, 'utf-8')]
+    return Response(response)
+  
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT"))
+    with Configurator() as config:
+        config.add_route('hello', '/')
+        config.add_view(hello_world, route_name='hello')
+        app = config.make_wsgi_app()
+    server = make_server('0.0.0.0', port, app)
+    server.serve_forever()
