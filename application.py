@@ -4,23 +4,23 @@ from pyramid.config import Configurator
 from pyramid.response import Response
 import os
 
-# Create logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+# # Create logger
+# logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
 
-# Handler 
-LOG_FILE = '/tmp/sample-app.log'
-handler = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=1048576, backupCount=5)
-handler.setLevel(logging.INFO)
+# # Handler 
+# LOG_FILE = '/tmp/sample-app.log'
+# handler = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=1048576, backupCount=5)
+# handler.setLevel(logging.INFO)
 
-# Formatter
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# # Formatter
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-# Add Formatter to Handler
-handler.setFormatter(formatter)
+# # Add Formatter to Handler
+# handler.setFormatter(formatter)
 
-# add Handler to Logger
-logger.addHandler(handler)
+# # add Handler to Logger
+# logger.addHandler(handler)
 
 welcome = """
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
